@@ -6,6 +6,7 @@ const GeneralConstant = {
     
     FORM_LABEL_EMAIL: "Email",
     FORM_LABEL_PASSWORD: "Password",
+    FORM_LABEL_CONFIRMATION_PASSWORD: "Confirmation Password",
     FORM_LABEL_FIRST_NAME: "First Name",
     FORM_LABEL_LAST_NAME: "Last Name",
 

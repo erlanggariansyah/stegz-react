@@ -21,6 +21,10 @@ input {
     box-sizing: border-box;
 }
 
+.red_outline {
+  outline-color: red;
+}
+
 .register {
   margin: 2.5% 0;
 }
