@@ -3,11 +3,11 @@ import Footer from "../components/Footer/Footer";
 import LoginForm from "../components/LoginForm/LoginForm";
 import Navbar from "../components/Navbar/Navbar";
 
-const Login = () => {
+const Login = ({ pkceVerifier, setPkceVerifier }) => {
     return (
         <>
             <Navbar />
-            <LoginForm />
+            <LoginForm pkceVerifier={pkceVerifier} setPkceVerifier={setPkceVerifier} />
             <Footer />
         </>
     )

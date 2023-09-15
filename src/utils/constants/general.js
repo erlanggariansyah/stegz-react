@@ -3,28 +3,11 @@ const GeneralConstant = {
     PROJECT_DESCRIPTION: "stegZ Project is a simple-minimalistic web-application steganography tool for IBM Hybrid Cloud & AI Project Capstone",
     PROJECT_DESCRIPTION_SHORT: "Steganography made easy.",
     PROJECT_CREDIT: "Developed by Erlangga Riansyah",
-
-    FORM_LABEL_PROVINCE: "Provinsi",
-    FORM_LABEL_STATUS: "Status",
-    FORM_LABEL_TOTAL: "Jumlah",
-
+    
     FORM_LABEL_EMAIL: "Email",
     FORM_LABEL_PASSWORD: "Password",
     FORM_LABEL_FIRST_NAME: "First Name",
     FORM_LABEL_LAST_NAME: "Last Name",
-
-    GLOBAL_SITUATION: "Global Situation",
-    GLOBAL_SITUATION_DESC: "Data Covid berdasarkan Global",
-    INDONESIA_SITUATION: "Indonesia Situation",
-    INDONESIA_SITUATION_DESC: "Data Covid berdasarkan Indonesia",
-    REGION_SITUATION: "Situation by Regions",
-    REGION_SITUATION_DESC: "Bacaan Pilihan Covid",
-    PROVINCE_SITUATION: "Situation by Provinces",
-    PROVINCE_SITUATION_DESC: "Data Covid berdasarkan Provinsi",
-    CONFIRMED: "Confirmed",
-    RECOVERED: "Recovered",
-    DEATH: "Death",
-    VACCINE: "Vaccine",
 
     AT_A_GLANCE: "At a glance",
     AT_A_GLANCE_DESC: "what is steganography?",

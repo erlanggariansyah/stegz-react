@@ -4,11 +4,14 @@ import { ReactComponent as ImageLogin } from "../../assets/hero_img_login.svg"
 import LoginFormStyled from "../../styled/LoginFormStyled";
 import GeneralConstant from "../../utils/constants/general";
 import CryptoJS from "crypto-js";
+import axios from "axios";
+import Endpoint from "../../utils/constants/endpoint";
 
-const LoginForm = () => {
+const LoginForm = ({ pkceVerifier, setPkceVerifier }) => {
     const [ formData, setFormData ] = useState({ email: "", password: "" })
     const [ emailNull, setEmailNull ] = useState(false);
     const [ passwordNull, setPasswordNull ] = useState(false);
+    const [ validCredential, setValidCredential ] = useState(true);
 
     const validate = () => {
         if (formData.email === "") {
@@ -44,15 +47,31 @@ const LoginForm = () => {
             .replace(/=/g, '');
     };
 
-    var verifier = base64URLEncode(CryptoJS.lib.WordArray.random(32));
+    var verifier = base64URLEncode(CryptoJS.lib.WordArray.random(32));    
     var codeChallenge = base64URLEncode(CryptoJS.SHA256(verifier));
 
     const handleLoginIBM= (e) => {
-        window.location = `https://erlangga.verify.ibm.com/v1.0/endpoint/default/authorize?client_id=a528c79c-c897-4427-aba2-2fcb39d029f8&response_type=code token id_token&redirect_uri=http://localhost:3000/login/ibm&code_challenge=${codeChallenge}`;
+        setPkceVerifier(verifier);
+        window.location = `https://erlangga.verify.ibm.com/v1.0/endpoint/default/authorize?client_id=a528c79c-c897-4427-aba2-2fcb39d029f8&response_type=code&redirect_uri=http://localhost:3000/login/ibm&code_challenge=${codeChallenge}`;
     }
 
     const handleClickRegister = () => {
         window.location = "/register";
+    }
+
+    const handleClickLogin = () => {
+        axios.post(Endpoint.LOGIN, {
+            email: formData.email,
+            password: formData.password
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.info(response.data)
+        }).catch((error) => {
+            setValidCredential(false);
+        });
     }
 
     return (
@@ -76,17 +95,18 @@ const LoginForm = () => {
                                     <label>{GeneralConstant.FORM_LABEL_PASSWORD}</label>
                                     <input id="password" value={formData.password} type="text" name="password" onChange={handleChange} />
                                 </div>
+                                { !validCredential ? <p>Email atau password anda salah.</p> : null }
                                 <div>
-                                    <button type="submit">Login</button>
-                                </div>
-                                <div>
-                                    <p>Already have an IBM account?</p>
-                                    <button onClick={handleLoginIBM}>Login with IBM ID</button>
-                                </div>
-                                <div className="register">
-                                    <button onClick={handleClickRegister}>Register</button>
+                                    <button type="submit" onClick={handleClickLogin}>Login</button>
                                 </div>
                             </form>
+                            <div>
+                                <p>Already have an IBM account?</p>
+                                <button onClick={handleLoginIBM}>Login with IBM ID</button>
+                            </div>
+                            <div className="register">
+                                <button onClick={handleClickRegister}>Register</button>
+                            </div>
                         </div>
                     </div>
                 </section>

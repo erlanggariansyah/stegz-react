@@ -1,6 +1,7 @@
 const Endpoint = {
-    INDONESIA: "https://covid-fe-2023.vercel.app/api/indonesia.json",
-    GLOBAL: "https://covid-fe-2023.vercel.app/api/global.json"
+    INFO: "http://localhost:8080/",
+    LOGIN: "http://localhost:8080/api/v1/login",
+    REGISTER: "http://localhost:8080/api/v1/register"
 }
 
 export default Endpoint;

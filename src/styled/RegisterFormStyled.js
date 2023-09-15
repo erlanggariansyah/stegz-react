@@ -101,6 +101,10 @@ input {
       margin-left: 0.5rem
     }
   }
+
+.error_text {
+  color: red;
+}
 `
 
 export default RegisterFormStyled;
