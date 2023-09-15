@@ -1,3 +1,4 @@
+import React from "react";
 import InsightStyled from "../../styled/InsightStyled";
 import Heading from "../Heading/Heading";
 import InsightDescription from "../InsightDescription/InsightDescription";

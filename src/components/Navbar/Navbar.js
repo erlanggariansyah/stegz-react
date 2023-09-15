@@ -1,3 +1,4 @@
+import React from "react";
 import ItemList from "../ItemList/ItemList";
 import NavbarStyled from "../../styled/NavbarStyled";
 

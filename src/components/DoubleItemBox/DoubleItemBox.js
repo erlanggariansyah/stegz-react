@@ -1,3 +1,4 @@
+import React from "react";
 import DoubleItemBoxStyled from "../../styled/DoubleItemBoxStyled";
 
 const DoubleItemBox = (props) => {

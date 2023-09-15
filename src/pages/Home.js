@@ -1,3 +1,4 @@
+import React from "react";
 import Insight from "../components/Insight/Insight"
 import Footer from "../components/Footer/Footer"
 import Hero from "../components/Hero/Hero"

@@ -1,3 +1,4 @@
+import React from "react";
 import DeepDiveStyled from "../../styled/DeepDiveStyled";
 import Heading from "../Heading/Heading";
 import InsightDescription from "../InsightDescription/InsightDescription";

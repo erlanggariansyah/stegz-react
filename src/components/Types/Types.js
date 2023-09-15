@@ -1,3 +1,4 @@
+import React from "react";
 import TypesStyled from "../../styled/TypesStyled";
 import DoubleItemBox from "../DoubleItemBox/DoubleItemBox";
 import Heading from "../Heading/Heading";

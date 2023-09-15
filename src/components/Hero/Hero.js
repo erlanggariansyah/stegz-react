@@ -1,3 +1,4 @@
+import React from "react";
 import { ReactComponent as HeroImage } from "../../assets/hero_img.svg"
 import HeroStyled from "../../styled/HeroStyled";
 import GeneralConstant from "../../utils/constants/general";

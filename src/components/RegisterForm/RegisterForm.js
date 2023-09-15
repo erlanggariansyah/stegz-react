@@ -1,3 +1,4 @@
+import React from "react";
 import { ReactComponent as ImageLogin } from "../../assets/hero_img_login.svg"
 import { useState } from "react";
 import RegisterFormStyled from "../../styled/RegisterFormStyled";

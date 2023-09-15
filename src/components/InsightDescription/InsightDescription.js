@@ -1,3 +1,4 @@
+import React from "react";
 import InsightDescriptionStyled from "../../styled/InsightDescriptionStyled";
 
 const InsightDescription = (props) => {

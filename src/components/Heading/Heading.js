@@ -1,3 +1,4 @@
+import React from "react";
 import HeadingStyled from "../../styled/HeadingStyled";
 
 const Heading = (props) => {

@@ -1,3 +1,4 @@
+import React from "react";
 import FooterStyled from "../../styled/FooterStyled";
 import GeneralConstant from "../../utils/constants/general";
 import ItemList from "../ItemList/ItemList";

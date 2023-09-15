@@ -1,3 +1,4 @@
+import React from "react";
 import ExploreMoreStyled from "../../styled/ExploreMoreStyled";
 import Heading from "../Heading/Heading";
 import LoginForm from "../LoginForm/LoginForm";
