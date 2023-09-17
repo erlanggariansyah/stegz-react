@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import LoginProcessIBMStyled from "../../styled/LoginProcessIBMStyled";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 const LoginProcessIBM = () => {
-    const [ loading, setLoading ] = useState(false);
     const [ searchParams ] = useSearchParams();
     const code = searchParams.get('code');
     const pkceVerifier = localStorage.getItem('PKCEVerifier');
@@ -36,7 +35,6 @@ const LoginProcessIBM = () => {
             sessionStorage.setItem('Authorization-Token', response.data.data.token);
             sessionStorage.setItem('User', JSON.stringify(response.data.data.user));
     
-            setLoading(false);
             navigator("/home");
         }).catch(() => {
             navigator("/login");
@@ -65,8 +63,6 @@ const LoginProcessIBM = () => {
     }
 
     useEffect(() => {
-        setLoading(true);
-
         const headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -97,14 +93,9 @@ const LoginProcessIBM = () => {
     return (
         <>
              <LoginProcessIBMStyled>
-             <div className="container">
-                { loading ? <div className="spinner" /> : (
-                        <>
-                            <p>code: {code}</p>
-                        </>
-                    )
-                }
-             </div>
+                <div className="centered">
+                    <p>Synchronizing stegZ with IBM Security Verify..</p>
+                </div>
             </LoginProcessIBMStyled>
         </>
     )

@@ -23,6 +23,14 @@ const SignedInNavbar = () => {
         });
     }
 
+    const handleClickMySession = () => {
+        navigator("/sessions");
+    }
+
+    const handleClickTitle = () => {
+        navigator("/home");
+    }
+
     return (
         <SignedInNavbarStyled>
             <nav>
@@ -32,7 +40,10 @@ const SignedInNavbar = () => {
                 <ItemListStyled>
                 <ul>
                     <li>
-                        <a>{`Hi, ${user.first_name}!`}</a>
+                        <a onClick={handleClickTitle}>{`Hi, ${user.first_name}!`}</a>
+                    </li>
+                    <li>
+                        <a onClick={handleClickMySession}>My Session</a>
                     </li>
                     <li>
                         <a onClick={handleClickLogout}>Logout</a>

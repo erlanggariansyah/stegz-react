@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import LoginProcessIBM from "./pages/LoginProcessIBM";
 import SignedInHome from "./pages/SignedInHome";
 import PrivateRoute from "./utils/middleware/PrivateRoute";
+import SignedInSession from "./pages/SignedInSession";
 
 function App() {
   return (
@@ -17,10 +18,16 @@ function App() {
       <Route path="/login" element={<Login />}/>
       <Route path="/login/ibm" element={<LoginProcessIBM />}/>
       <Route path="/register" element={<Register />}/>
+      <Route path="/test" element={<LoginProcessIBM />} />
 
       <Route path="/home" element={
         <PrivateRoute>
           <SignedInHome />
+        </PrivateRoute>
+      } />
+      <Route path="/sessions" element={
+        <PrivateRoute>
+          <SignedInSession />
         </PrivateRoute>
       } />
     </Routes>

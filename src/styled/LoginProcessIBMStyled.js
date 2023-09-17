@@ -1,33 +1,24 @@
 import styled from "styled-components";
 
 const LoginProcessIBMStyled = styled.div`
-.loader-container {
-    width: 100%;
-    height: 100vh;
-    display: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background: rgba(0, 0, 0, 0.834);
-    z-index: 1;
+.centered {
+    width: 800px;
+    border-radius: 5px;
+    background: #101010;
+    padding: 10px;
+    height: 50px;
+    position: absolute;
+    margin-top: -25px;
+    margin-left: -400px;
+    top: 50%;
+    left: 50%;
+    border-radius: 50px;
 }
 
-.spinner {
-    width: 64px;
-    height: 64px;
-    border: 8px solid;
-    border-color: #454545 transparent #020202 transparent;
-    border-radius: 50%;
-    animation: spin-anim 1.2s linear infinite;
-}
-
-@keyframes spin-anim {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+p {
+    color: #FFFFFF;
+    text-align: center;
 }
 `
+
 export default LoginProcessIBMStyled;
