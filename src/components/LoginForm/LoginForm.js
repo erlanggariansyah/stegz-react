@@ -59,7 +59,7 @@ const LoginForm = () => {
             const codeChallenge = cryptoUtil.PKCEChallenge;
 
             localStorage.setItem('PKCEVerifier', verifier);
-            window.location = `https://erlangga.verify.ibm.com/v1.0/endpoint/default/authorize?client_id=a528c79c-c897-4427-aba2-2fcb39d029f8&response_type=code&redirect_uri=http://localhost:3000/login/ibm&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+            window.location = `https://erlangga.verify.ibm.com/v1.0/endpoint/default/authorize?client_id=a528c79c-c897-4427-aba2-2fcb39d029f8&response_type=code&redirect_uri=https://stegz.vercel.app/login/ibm&code_challenge=${codeChallenge}&code_challenge_method=S256`;
         }
     }
 

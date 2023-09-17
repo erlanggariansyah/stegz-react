@@ -20,7 +20,7 @@ const LoginProcessIBM = () => {
         const bodyEncoded = new URLSearchParams();
         bodyEncoded.append('code', code);
         bodyEncoded.append('grant_type', 'authorization_code');
-        bodyEncoded.append('redirect_uri', 'http://localhost:3000/login/ibm');
+        bodyEncoded.append('redirect_uri', 'https://stegz.vercel.app/login/ibm');
         bodyEncoded.append('code_verifier', pkceVerifier);
         bodyEncoded.append('client_id', 'a528c79c-c897-4427-aba2-2fcb39d029f8');
         bodyEncoded.append('client_secret', 'c31STPpluW');
