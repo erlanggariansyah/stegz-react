@@ -25,6 +25,8 @@ const RegisterForm = () => {
 
     const [ validData, setValidData ] = useState(true);
 
+    const [ alreadySignedIn, setAlreadySignedIn ] = useState(false);
+
     const navigator = useNavigate();
 
     const validate = () => {
@@ -127,26 +129,31 @@ const RegisterForm = () => {
     }
 
     const handleClickRegister = () => {
-        if (!emailNull && !firstNameNull && 
-            !lastNameNull && !passwordNull && 
-            !confirmationPasswordNull && validEmail && 
-            safePassword && passwordMatch) {
-
-            axios.post(Endpoint.REGISTER, {
-                email: formData.email,
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-                password: formData.password
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then((response) => {
-                navigator("/login");
-            }).catch((error) => {
-                console.info(error.message)
-                setValidData(false);
-            });
+        const authorizationToken = sessionStorage.getItem('Authorization-Token');
+        if (authorizationToken != null) {
+            setAlreadySignedIn(true);
+        } else {
+            if (!emailNull && !firstNameNull && 
+                !lastNameNull && !passwordNull && 
+                !confirmationPasswordNull && validEmail && 
+                safePassword && passwordMatch) {
+    
+                axios.post(Endpoint.REGISTER, {
+                    email: formData.email,
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    password: formData.password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(() => {
+                    navigator("/login");
+                }).catch((error) => {
+                    console.error(error.message)
+                    setValidData(false);
+                });
+            }
         }
     }
 
@@ -159,38 +166,38 @@ const RegisterForm = () => {
                     </div>
                     <div className="form__right">
                         <h2 className="form__title">Register</h2>
+                        { alreadySignedIn ? <p className="error_text">Already signed in.</p> : null }
                         <div>
                             <form onSubmit={handleClick}>
-                                { emailNull ? <p className="error_text">Email must be filled in.</p> : null }
-                                {
-                                    !validEmail && emailChangeCounter <= 20 ? <p className="error_text">Not a valid email.</p> :
-                                    (!validEmail && emailChangeCounter <= 40 ? <p className="error_text">Still not a valid email.</p> :
-                                    (!validEmail && emailChangeCounter > 40 ? <p className="error_text">Need help? read this article: <a href="https://en.wikipedia.org/wiki/Email_address">email address definition & format.</a></p> : null)
-                                    ) 
-                                }
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_EMAIL}</label>
-                                    <input id="email" className={ validEmail || emailNull ? null : 'red_outline' } value={formData.email} type="text" name="email" onChange={handleChangeEmail} />
+                                    { emailNull && !alreadySignedIn ? <p className="error_text">Email must be filled in.</p> : null }
+                                    {
+                                        !validEmail && emailChangeCounter <= 20 ? <p className="error_text">Not a valid email.</p> :
+                                        (!validEmail && emailChangeCounter <= 40 ? <p className="error_text">Still not a valid email.</p> :
+                                        (!validEmail && emailChangeCounter > 40 ? <p className="error_text">Need help? read this article: <a href="https://en.wikipedia.org/wiki/Email_address">email address definition & format.</a></p> : null)) 
+                                    }
+                                    <input id="email" className={ !validEmail || emailNull ? 'red_outline' : null } value={formData.email} type="text" name="email" onChange={handleChangeEmail} />
                                 </div>
-                                { firstNameNull ? <p className="error_text">First Name must be filled in.</p> : null }
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_FIRST_NAME}</label>
+                                    { firstNameNull && !alreadySignedIn ? <p className="error_text">First Name must be filled in.</p> : null }
                                     <input id="firstName" className={ firstNameNull ? 'red_outline' : null } value={formData.firstName} type="text" name="firstName" onChange={handleChange} />
                                 </div>
-                                { lastNameNull ? <p className="error_text">Last Name must be filled in.</p> : null }
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_LAST_NAME}</label>
+                                    { lastNameNull && !alreadySignedIn ? <p className="error_text">Last Name must be filled in.</p> : null }
                                     <input id="lastName" className={lastNameNull ? 'red_outline' : null} value={formData.lastName} type="text" name="lastName" onChange={handleChange} />
                                 </div>
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_PASSWORD}</label>
-                                    { passwordNull ? <p className="error_text">Password must be filled in.</p> : null }
+                                    { passwordNull && !alreadySignedIn ? <p className="error_text">Password must be filled in.</p> : null }
                                     { !safePassword ? <p className="error_text">Your password doesn’t match the NIST Guidelines. <a href="https://pages.nist.gov/800-63-3/sp800-63b.html">Read here.</a></p> : null }
                                     <input id="password" className={ !passwordMatch || !safePassword || passwordNull ? 'red_outline' : null } value={formData.password} type={ showPassword ? 'text' : 'password' } name="password" onChange={handleChangePassword} />
                                 </div>
-                                { confirmationPasswordNull ? <p className="error_text">Confirmation Password must be filled in.</p> : null }
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_CONFIRMATION_PASSWORD}</label>
+                                    { confirmationPasswordNull && !alreadySignedIn ? <p className="error_text">Confirmation Password must be filled in.</p> : null }
                                     {
                                         passwordMatch ? null : (
                                             <>
@@ -203,7 +210,7 @@ const RegisterForm = () => {
                                      } value={formData.confirmationPassword} type={ showPassword ? 'text' : 'password' } name="confirmationPassword" onChange={handleConfirmationPasswordChange} />
                                 </div>
                                 <p>* By registering, you agree to the general policy of using user data based on existing laws in Indonesia. <a href="https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022">See here.</a></p>
-                                { !validData ? <p className="error_text">The data you entered is invalid or has been previously registered.</p> : null }
+                                { !validData ? <p className="error_text">The data you entered is invalid or has been already registered.</p> : null }
                                 <div>
                                     <button type="submit" onClick={handleClickRegister}>Register</button>
                                 </div>

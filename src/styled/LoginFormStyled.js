@@ -74,6 +74,14 @@ input {
     height: auto;
     border-radius: 25px;
   }
+
+  .error_text {
+    color: red;
+  }
+
+  .red_outline {
+    outline-color: red;
+  }
   
   @media (min-width: 768px) {
     .container {

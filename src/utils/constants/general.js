@@ -20,9 +20,9 @@ const GeneralConstant = {
     DEEP_DIVE_STEGANOGRAPHY_2: "LSB steganography alters the last bit of each of those bytes to hide one bit of data. So, to hide one megabyte of data using this method, you would need an eight-megabyte image file",
     DEEP_DIVE_STEGANOGRAPHY_3: "Modifying the last bit of the pixel value doesn’t result in a visually perceptible change to the picture, which means that anyone viewing the original and the steganographically-modified images won’t be able to tell the difference",
     TYPES: "Types of steganography",
-    TYPES_DESCRIPTION_SHORT: "From my perspective, there are six main types of steganography",
+    TYPES_DESCRIPTION_SHORT: "from my perspective, there are six main types of steganography",
     EXPLORE_MORE: "Want to know more?",
-    EXPLORE_MORE_DESCRIPTION: "Sign in to explore more!",
+    EXPLORE_MORE_DESCRIPTION: "sign in to explore more!",
     LOGIN: "Login"
 }
 

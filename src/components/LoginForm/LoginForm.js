@@ -3,15 +3,26 @@ import { useState } from "react";
 import { ReactComponent as ImageLogin } from "../../assets/hero_img_login.svg"
 import LoginFormStyled from "../../styled/LoginFormStyled";
 import GeneralConstant from "../../utils/constants/general";
-import CryptoJS from "crypto-js";
 import axios from "axios";
 import Endpoint from "../../utils/constants/endpoint";
+import { useNavigate } from "react-router-dom";
+import CryptoUtil from "../../utils/helper/CryptoUtil";
 
-const LoginForm = ({ pkceVerifier, setPkceVerifier }) => {
+const LoginForm = () => {
     const [ formData, setFormData ] = useState({ email: "", password: "" })
+
     const [ emailNull, setEmailNull ] = useState(false);
+    const [ validEmail, setValidEmail ] = useState(true);
+    const [ emailChangeCounter, setEmailChangeCounter ] = useState(0);
+
     const [ passwordNull, setPasswordNull ] = useState(false);
     const [ validCredential, setValidCredential ] = useState(true);
+
+    const [ alreadySignedIn, setAlreadySignedIn ] = useState(false);
+
+    const navigator = useNavigate();
+    const authorizationToken = sessionStorage.getItem('Authorization-Token');
+    const cryptoUtil = CryptoUtil();
 
     const validate = () => {
         if (formData.email === "") {
@@ -40,19 +51,16 @@ const LoginForm = ({ pkceVerifier, setPkceVerifier }) => {
         })
     }
     
-    const base64URLEncode = (str) => {
-        return str.toString(CryptoJS.enc.Base64)
-            .replace(/\+/g, '-')
-            .replace(/\//g, '_')
-            .replace(/=/g, '');
-    };
+    const handleLoginIBM = (e) => {
+        if (authorizationToken != null) {
+            setAlreadySignedIn(true);
+        } else {
+            const verifier = cryptoUtil.PKCEVerifier;
+            const codeChallenge = cryptoUtil.PKCEChallenge;
 
-    var verifier = base64URLEncode(CryptoJS.lib.WordArray.random(32));    
-    var codeChallenge = base64URLEncode(CryptoJS.SHA256(verifier));
-
-    const handleLoginIBM= (e) => {
-        setPkceVerifier(verifier);
-        window.location = `https://erlangga.verify.ibm.com/v1.0/endpoint/default/authorize?client_id=a528c79c-c897-4427-aba2-2fcb39d029f8&response_type=code&redirect_uri=http://localhost:3000/login/ibm&code_challenge=${codeChallenge}`;
+            localStorage.setItem('PKCEVerifier', verifier);
+            window.location = `https://erlangga.verify.ibm.com/v1.0/endpoint/default/authorize?client_id=a528c79c-c897-4427-aba2-2fcb39d029f8&response_type=code&redirect_uri=http://localhost:3000/login/ibm&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+        }
     }
 
     const handleClickRegister = () => {
@@ -60,18 +68,45 @@ const LoginForm = ({ pkceVerifier, setPkceVerifier }) => {
     }
 
     const handleClickLogin = () => {
-        axios.post(Endpoint.LOGIN, {
-            email: formData.email,
-            password: formData.password
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
+        if (authorizationToken != null) {
+            setAlreadySignedIn(true);
+        } else {
+            if (validEmail && !emailNull && !passwordNull) {
+                axios.post(Endpoint.LOGIN, {
+                    email: formData.email,
+                    password: formData.password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((response) => {
+                    sessionStorage.setItem('Authorization-Token', response.data.data.token);
+                    sessionStorage.setItem('User', JSON.stringify(response.data.data.user));
+    
+                    navigator("/home");
+                }).catch(() => {
+                    setValidCredential(false);
+                });
             }
-        }).then((response) => {
-            console.info(response.data)
-        }).catch((error) => {
-            setValidCredential(false);
-        });
+        }
+    }
+
+    const handleChangeEmail = (e) => {
+        const { name, value } = e.target;
+
+        if (value.indexOf('@') === -1 || value.indexOf('.') === -1 || value.length <= 5) {
+            setValidEmail(false)
+        } else {
+            setEmailChangeCounter(0)
+            setValidEmail(true)
+        }
+
+        if (!validEmail) setEmailChangeCounter(emailChangeCounter + 1);
+
+        setFormData({
+            ...formData,
+            [name]: value
+        })
     }
 
     return (
@@ -83,19 +118,25 @@ const LoginForm = ({ pkceVerifier, setPkceVerifier }) => {
                     </div>
                     <div className="form__right">
                         <h2 className="form__title">Login</h2>
+                        { alreadySignedIn ? <p className="error_text">Already signed in.</p> : null }
                         <div>
                             <form onSubmit={handleClick}>
-                                { emailNull ? <p>Email wajib di isi.</p> : null }
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_EMAIL}</label>
-                                    <input id="email" value={formData.email} type="text" name="email" onChange={handleChange} />
+                                    { emailNull && !alreadySignedIn ? <p className="error_text">Email must be filled in.</p> : null }
+                                    {
+                                        !validEmail && emailChangeCounter <= 20 ? <p className="error_text">Not a valid email.</p> :
+                                        (!validEmail && emailChangeCounter <= 40 ? <p className="error_text">Still not a valid email.</p> :
+                                        (!validEmail && emailChangeCounter > 40 ? <p className="error_text">Need help? read this article: <a href="https://en.wikipedia.org/wiki/Email_address">email address definition & format.</a></p> : null))
+                                    }
+                                    <input id="email" className={ !validEmail || emailNull ? 'red_outline' : null } value={formData.email} type="text" name="email" onChange={handleChangeEmail} />
                                 </div>
-                                { passwordNull ? <p>Password wajib di isi.</p> : null }
                                 <div className="form__field">
                                     <label>{GeneralConstant.FORM_LABEL_PASSWORD}</label>
-                                    <input id="password" value={formData.password} type="text" name="password" onChange={handleChange} />
+                                    { passwordNull && !alreadySignedIn ? <p className="error_text">Password must be filled in.</p> : null }
+                                    <input id="password" className={ passwordNull ? 'red_outline' : null } value={formData.password} type="password" name="password" onChange={handleChange} />
                                 </div>
-                                { !validCredential ? <p>Email atau password anda salah.</p> : null }
+                                { !validCredential ? <p className="error_text">Wrong credentials.</p> : null }
                                 <div>
                                     <button type="submit" onClick={handleClickLogin}>Login</button>
                                 </div>
