@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import SignedInSessionStyled from "../../styled/SignedInSessionStyled";
 import axios from "axios";
+import HeadingMenu from "../HeadingMenu/HeadingMenu";
 
 const SignedInSession = () => {
     const [ sessionData, setSessionData ] = useState([]);
@@ -14,12 +15,32 @@ const SignedInSession = () => {
     }
 
     const handleClickSubmitComment = () => {
-        setIsCommenting(false);
+        axios.post('http://localhost:8080/api/v1/sessions/comment', {
+            access_token_id: currentSessionData.uuid,
+            comment: currentSessionData.comment
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Authorization-Token')
+            }
+        }).then(() => {
+            setIsCommenting(false);
+            setCurrentSessionData({});
+        })
     }
 
     const handleClickCancelComment = () => {
         setIsCommenting(false);
         setCurrentSessionData({});
+    }
+
+    const handleChangeComment = (e) => {
+        const { name, value } = e.target;
+
+        setCurrentSessionData({
+            ...currentSessionData,
+            [name]: value
+        })
     }
 
     useEffect(() => {
@@ -63,18 +84,19 @@ const SignedInSession = () => {
 
             setSessionData(sessionRows);
         })
-    }, [sessionData]);
+    }, [isCommenting]);
 
     return (
         <SignedInSessionStyled>
+            <HeadingMenu titleText={"My Session"} subtitleText={"/  My Session"} />
             <div className="tableContainer">
                 {
                     isCommenting ? (
                         <>
                             <div className="form__field">
                                 <label>Leave comment for session {currentSessionData.uuid}.</label><a onClick={handleClickCancelComment}> Cancel here.</a>
-                                <input id="comment" value={currentSessionData.comment} type="text" name="comment" />
-                                <button onClick={() => handleClickSubmitComment}>Comment</button>
+                                <input id="comment" value={currentSessionData.comment} type="text" name="comment" onChange={handleChangeComment}/>
+                                <button onClick={handleClickSubmitComment}>Comment</button>
                             </div>
                         </>
                     ) : null
