@@ -6,7 +6,6 @@ import axios from "axios";
 
 const SignedInNavbar = () => {
     const navigator = useNavigate();
-    const user = JSON.parse(sessionStorage.getItem('User'));
 
     const handleClickLogout = () => {
         axios.post("http://localhost:8080/api/v1/logout", {}, {
@@ -40,7 +39,7 @@ const SignedInNavbar = () => {
                 <ItemListStyled>
                 <ul>
                     <li>
-                        <a onClick={handleClickTitle}>{`Hi, ${user.first_name}!`}</a>
+                        <a onClick={handleClickTitle}>Home</a>
                     </li>
                     <li>
                         <a onClick={handleClickMySession}>My Session</a>

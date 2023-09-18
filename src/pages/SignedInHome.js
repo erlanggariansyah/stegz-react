@@ -2,6 +2,7 @@ import React from "react";
 import SignedInFooter from "../components/SignedInFooter/SignedInFooter";
 import SignedInNavbar from "../components/SignedInNavbar/SignedInNavbar";
 import HeadingMenu from "../components/HeadingMenu/HeadingMenu";
+import SignedInUserInformation from "../components/SignedInUserInformation/SignedInUserInformation";
 
 const SignedInHome = () => {
     const user = JSON.parse(sessionStorage.getItem('User'));
@@ -9,7 +10,7 @@ const SignedInHome = () => {
     return (
         <>
             <SignedInNavbar/>
-            <HeadingMenu titleText={"Home"} subtitleText={"/ Home"} />
+            <SignedInUserInformation />
             <SignedInFooter />
         </>
     )
