@@ -50,8 +50,12 @@ const LoginForm = () => {
             [name]: value
         })
     }
+
+    const handleLoginIBM = () => {
+        navigator("/login/ibm/pa");
+    }
     
-    const handleLoginIBM = (e) => {
+    const handleSSOIBM = (e) => {
         if (authorizationToken != null) {
             setAlreadySignedIn(true);
         } else {
@@ -143,7 +147,10 @@ const LoginForm = () => {
                             </form>
                             <div>
                                 <p>Already have an IBM account?</p>
-                                <button onClick={handleLoginIBM}>Login with IBM ID</button>
+                                <div className="login-ibm">
+                                    <button onClick={handleLoginIBM}>Login with IBMid</button>
+                                    <button onClick={handleSSOIBM}>IBM SSO</button>
+                                </div>
                             </div>
                             <div className="register">
                                 <button onClick={handleClickRegister}>Register</button>

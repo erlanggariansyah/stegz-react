@@ -30,6 +30,10 @@ const SignedInNavbar = () => {
         navigator("/home");
     }
 
+    const handleClickMyBilling = () => {
+        navigator("/billings")
+    }
+
     return (
         <SignedInNavbarStyled>
             <nav>
@@ -43,6 +47,9 @@ const SignedInNavbar = () => {
                     </li>
                     <li>
                         <a onClick={handleClickMySession}>My Session</a>
+                    </li>
+                    <li>
+                        <a onClick={handleClickMyBilling}>My Billing</a>
                     </li>
                     <li>
                         <a onClick={handleClickLogout}>Logout</a>

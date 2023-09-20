@@ -9,6 +9,18 @@ const LoginProcessIBM = () => {
     const pkceVerifier = localStorage.getItem('PKCEVerifier');
     const navigator = useNavigate();
 
+    const chargeSSO = (token) => {
+        axios.post("http://localhost:8080/api/v1/billings/usage", {
+            action: 'SSO',
+            price: '2000'
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+    }
+
     const persistIbmUser = ({
         token, email, name
     }) => {
@@ -32,9 +44,11 @@ const LoginProcessIBM = () => {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
+            chargeSSO(response.data.data.token);
+            
             sessionStorage.setItem('Authorization-Token', response.data.data.token);
             sessionStorage.setItem('User', JSON.stringify(response.data.data.user));
-    
+
             navigator("/home");
         }).catch(() => {
             navigator("/login");

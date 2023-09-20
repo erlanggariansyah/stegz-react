@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const LoginFormStyled = styled.div`
+const LoginIBMPAStyled = styled.div`
 .container {
     margin: 1rem;
     padding: 2rem 10rem 2rem 10rem;
@@ -9,6 +9,10 @@ const LoginFormStyled = styled.div`
 section {
     display: flex;
     margin: 20px 0 20px 0;
+}
+
+.link {
+    color: blue;
 }
 
 input {
@@ -42,12 +46,12 @@ input {
   
   .form__left {
     margin-bottom: 1rem;
-    margin-right: 2rem;
+    padding-right: 2rem;
   }
   
   .form__right {
     margin-bottom: 1rem;
-    margin-left: 2rem;
+    padding-left: 2rem;
   }
   
   .form__title {
@@ -111,4 +115,4 @@ input {
   }
 `
 
-export default LoginFormStyled;
+export default LoginIBMPAStyled;

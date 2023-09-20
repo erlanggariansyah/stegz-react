@@ -13,10 +13,7 @@ const ItemList = () => {
                     <a href="https://www.ibm.com/us-en">IBM</a>
                 </li>
                 <li>
-                    <a href="https://www.ibm.com/products/verify-identity">Security Verify</a>
-                </li>
-                <li>
-                    <a href="https://www.infinitelearning.id/">Infinite Learning</a>
+                    <Link to="/pricing">Pricing</Link>
                 </li>
                 <li>
                     <Link to="/about">About</Link>

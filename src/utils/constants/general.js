@@ -9,6 +9,7 @@ const GeneralConstant = {
     FORM_LABEL_CONFIRMATION_PASSWORD: "Confirmation Password",
     FORM_LABEL_FIRST_NAME: "First Name",
     FORM_LABEL_LAST_NAME: "Last Name",
+    FORM_LABEL_IBM_ID: "IBMid",
 
     AT_A_GLANCE: "At a glance",
     AT_A_GLANCE_DESC: "what is steganography?",
